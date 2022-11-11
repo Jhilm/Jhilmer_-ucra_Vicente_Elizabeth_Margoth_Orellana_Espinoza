@@ -1,5 +1,5 @@
 //import "./css/tools.css";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import useCanvasContext from "../hooks/useCanvasContext";
 
 const images_route = require.context("../assets", true);
@@ -10,7 +10,6 @@ const HistoryBar = () => {
 
   function set_id(e) {
     localStorage.setItem("img_selected", e.target.src);
-    console.log(localStorage.getItem("img_selected"));
   }
   function cargar() {
     const canvas = document.getElementById(app_ctx.ID_CANVAS);
@@ -46,7 +45,6 @@ const HistoryBar = () => {
 
   useEffect(() => {
     if (app_ctx.EVENT_SAVE.save) {
-      console.log(upload_complete);
       openDb();
       add_item(app_ctx.IMAGES[app_ctx.IMAGES.length - 1]);
       refresh();
@@ -55,7 +53,6 @@ const HistoryBar = () => {
   }, [app_ctx.EVENT_SAVE.save]);
 
   function refresh() {
-    console.log("actualizando arreglo de imagenes", app_ctx.IMAGES);
     get_all_img();
     var images_array = app_ctx.IMAGES;
     if (images_array) {
@@ -107,12 +104,6 @@ const HistoryBar = () => {
           .transaction(DB_STORE_NAME, "readwrite")
           .objectStore(DB_STORE_NAME);
         customerObjectStore.add(data_in);
-        customerObjectStore.onerror = function (event) {
-          console.log("error");
-        };
-        customerObjectStore.onsuccess = function (event) {
-          console.log("agregado correctamente");
-        };
       };
     }
   }
@@ -178,13 +169,14 @@ const HistoryBar = () => {
     }
   }
   return (
-    <div className="w3-col s1">
+    <Fragment>
+      <h3>Historial de Imagenes</h3>
       <div className="w3-col s12" id="lienzos_history"></div>
       <div className="w3-col s12">
         <button onClick={cargar}>cargar</button>
         <button onClick={quitar}>quitar</button>
       </div>
-    </div>
+    </Fragment>
   );
 };
 export default HistoryBar;

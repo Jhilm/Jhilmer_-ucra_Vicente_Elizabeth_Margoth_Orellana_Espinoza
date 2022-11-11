@@ -7,13 +7,13 @@ import BtnColor from "./includes/ButtonColor";
 import BtnExtra from "./includes/ExtraTools";
 import HistoryBar from "./includes/HistoryBar";
 import FigureTools from "./includes/FigureTools";
-
-
+import TextTool from "./includes/TextTools";
 
 function App() {
   var [save, setValue] = useState(false);
   var [db, init] = useState(false);
-  var [free_drawing , setDrawing] = useState(false);
+  var [free_drawing, setDrawing] = useState(false);
+  var [writing_text, setWritingText] = useState(false);
   var [img, setImage] = useState([
     {
       id: 1,
@@ -34,15 +34,27 @@ function App() {
         EVENT_SAVE: { save, setValue },
         DB: { db, init },
         DRAWING: { free_drawing, setDrawing },
+        WRITING: { writing_text, setWritingText },
       }}
     >
-      <div className="App">
-        <HistoryBar />
-        <Canvas />
-        <FigureTools/>
-        <div className="w3-col s12 w3-center">
-          <BtnColor />
-          <BtnExtra />
+      <div className="App w3-container w3-border">
+        <div className="navbar">hola</div>
+        <div className="container">
+          <div className="w3-col s1">
+            <HistoryBar />
+          </div>
+          <div className="w3-col s10">
+            <Canvas />
+          </div>
+          <div className="w3-col s1">
+            <FigureTools />
+            <TextTool />
+          </div>
+
+          <div className="w3-col s12 w3-center">
+            <BtnColor />
+            <BtnExtra />
+          </div>
         </div>
       </div>
     </CanvasContext.Provider>

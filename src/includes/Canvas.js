@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import useCanvasContext from "../hooks/useCanvasContext";
 function Canvas() {
   const app_ctx = useCanvasContext();
@@ -7,7 +8,11 @@ function Canvas() {
   let m = {};
   function handleMouseDown(e) {
     const mainCanvas = document.getElementById(app_ctx.ID_CANVAS);
-    if (mainCanvas) {
+    if (
+      mainCanvas &&
+      !app_ctx.DRAWING.free_drawing &&
+      !app_ctx.WRITING.writing_text
+    ) {
       m = oMousePos(mainCanvas, e);
       x = m.x;
       y = m.y;
@@ -16,7 +21,11 @@ function Canvas() {
   }
 
   function handleMouseMove(e) {
-    if (dibujando && !app_ctx.DRAWING.free_drawing) {
+    if (
+      dibujando &&
+      !app_ctx.DRAWING.free_drawing &&
+      !app_ctx.WRITING.writing_text
+    ) {
       const mainCanvas = document.getElementById(app_ctx.ID_CANVAS);
       m = oMousePos(mainCanvas, e);
       dibujar(x, y, m.x, m.y);
@@ -26,7 +35,11 @@ function Canvas() {
   }
 
   function handleMouseUp(e) {
-    if (dibujando && !app_ctx.DRAWING.free_drawing) {
+    if (
+      dibujando &&
+      !app_ctx.DRAWING.free_drawing &&
+      !app_ctx.WRITING.writing_text
+    ) {
       const mainCanvas = document.getElementById(app_ctx.ID_CANVAS);
       m = oMousePos(mainCanvas, e);
       dibujar(x, y, m.x, m.y);
@@ -67,11 +80,11 @@ function Canvas() {
     };
   }
   return (
-    <div className="w3-col s10">
+    <Fragment>
       <canvas
         className="w3-card-4 w3-border"
         id="canvas"
-        width="1350"
+        width="800"
         height="600"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -79,11 +92,11 @@ function Canvas() {
       ></canvas>
       <canvas
         id="canvas_backing"
-        width="1350"
+        width="800"
         height="600"
         style={{ display: "none" }}
       ></canvas>
-    </div>
+    </Fragment>
   );
 }
 
