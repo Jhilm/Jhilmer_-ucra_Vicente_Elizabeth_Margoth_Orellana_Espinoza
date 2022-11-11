@@ -1,23 +1,17 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
 IMPORTANTE:
 Despues de clonar el repositorio ejecutar los siguientes comandos:
 
 1.- Antes de ejecutar los comandos debe ingresar a la carpeta del proyecto.
 
-### `./pweb_canvas_react_app`
+./pweb_canvas_react_app
 
 2.- Primero instalar las dependencias con el comando
 
-### `npm i`
+npm i
 
 2.- Iniciar la aplicacion con:
 
-### `npm start`
+npm start
 
 Ir a la direccion en el navegador de tu preferencia:
 [http://localhost:3000](http://localhost:3000).
