@@ -31,6 +31,7 @@ const TextTool = () => {
       ctx_1.strokeStyle = app_ctx.SELECTED_COLOR;
       ctx_1.lineWidth = app_ctx.THICKNESS;
 
+      ctx_1.font = app_ctx.THICKNESS + "pt Verdana";
       ctx_1.fillText(text_in.current.value, m.x, m.y, 200);
       ctx_1.closePath();
       app_ctx.WRITING.setWritingText(false);
