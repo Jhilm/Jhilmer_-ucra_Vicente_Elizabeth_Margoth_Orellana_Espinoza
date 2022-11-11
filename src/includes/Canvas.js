@@ -16,7 +16,7 @@ function Canvas() {
   }
 
   function handleMouseMove(e) {
-    if (dibujando === true) {
+    if (dibujando && !app_ctx.DRAWING.free_drawing) {
       const mainCanvas = document.getElementById(app_ctx.ID_CANVAS);
       m = oMousePos(mainCanvas, e);
       dibujar(x, y, m.x, m.y);
@@ -26,7 +26,7 @@ function Canvas() {
   }
 
   function handleMouseUp(e) {
-    if (dibujando === true) {
+    if (dibujando && !app_ctx.DRAWING.free_drawing) {
       const mainCanvas = document.getElementById(app_ctx.ID_CANVAS);
       m = oMousePos(mainCanvas, e);
       dibujar(x, y, m.x, m.y);
@@ -61,6 +61,7 @@ function Canvas() {
   function oMousePos(canvas, evt) {
     var ClientRect = canvas.getBoundingClientRect();
     return {
+      //objeto
       x: Math.round(evt.clientX - ClientRect.left),
       y: Math.round(evt.clientY - ClientRect.top),
     };

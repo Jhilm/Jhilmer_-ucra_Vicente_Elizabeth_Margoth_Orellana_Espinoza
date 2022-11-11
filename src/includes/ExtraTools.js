@@ -1,4 +1,4 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useRef} from "react";
 import useCanvasContext from "../hooks/useCanvasContext";
 const BtnExtra = () => {
   const app_ctx = useCanvasContext();
@@ -23,15 +23,15 @@ const BtnExtra = () => {
   };
   function save() {
     const mainCanvas = document.getElementById(app_ctx.ID_CANVAS);
-    console.log("antes de la transsaccion de guardar", app_ctx.IMAGES);
-    let img = {
+    let images = app_ctx.IMAGES;
+    let img_aux = {
       id: app_ctx.IMAGES.length + 1,
       name: "image_" + (app_ctx.IMAGES.length + 1),
       data: mainCanvas.toDataURL(app_ctx.IMAGE_FORMAT),
     };
-    app_ctx.IMAGES.push(img);
-    console.log("antes de la transsaccion de guardar", app_ctx.IMAGES);
     app_ctx.EVENT_SAVE.setValue(true);
+    images.push(img_aux);
+    app_ctx.setImage(images);
   }
   function setPencilThickness() {
     app_ctx.THICKNESS = thickness_tool.current.value;
