@@ -46,11 +46,25 @@ const HistoryBar = () => {
   useEffect(() => {
     if (app_ctx.EVENT_SAVE.save) {
       openDb();
+      openDB_mysql();
       add_item(app_ctx.IMAGES[app_ctx.IMAGES.length - 1]);
       refresh();
       app_ctx.EVENT_SAVE.setValue(false);
     }
   }, [app_ctx.EVENT_SAVE.save]);
+
+  const [datos, setDatos] = useState(null);
+
+  function openDB_mysql() {
+    fetch("http://127.0.0.1:3001/getAll", {
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setDatos(data);
+        console.log(data);
+      });
+  }
 
   function refresh() {
     get_all_img();
@@ -71,8 +85,8 @@ const HistoryBar = () => {
     }
   }
 
-  const DB_NAME = "prueba",
-    DB_STORE_NAME = "images";
+  const DB_NAME = "pweb_db",
+    DB_TABLE_NAME = "images";
 
   var [db, setDB] = useState(null);
 
@@ -84,11 +98,11 @@ const HistoryBar = () => {
     };
     request.onupgradeneeded = function (event) {
       var db = event.target.result;
-      var objectStore = db.createObjectStore(DB_STORE_NAME, { keyPath: "id" });
+      var objectStore = db.createObjectStore(DB_TABLE_NAME, { keyPath: "id" });
       objectStore.transaction.oncomplete = function (event) {
         var customerObjectStore = db
-          .transaction(DB_STORE_NAME, "readwrite")
-          .objectStore(DB_STORE_NAME);
+          .transaction(DB_TABLE_NAME, "readwrite")
+          .objectStore(DB_TABLE_NAME);
         for (var i in app_ctx.IMAGES) {
           customerObjectStore.add(app_ctx.IMAGES[i]);
         }
@@ -97,12 +111,12 @@ const HistoryBar = () => {
   }
 
   function add_item(data_in) {
-    var objectStore = getObjectStore(DB_STORE_NAME, "readwrite");
+    var objectStore = getObjectStore(DB_TABLE_NAME, "readwrite");
     if (objectStore) {
       objectStore.transaction.oncomplete = function (event) {
         var customerObjectStore = db
-          .transaction(DB_STORE_NAME, "readwrite")
-          .objectStore(DB_STORE_NAME);
+          .transaction(DB_TABLE_NAME, "readwrite")
+          .objectStore(DB_TABLE_NAME);
         customerObjectStore.add(data_in);
       };
     }
@@ -117,12 +131,12 @@ const HistoryBar = () => {
   }
 
   function update_item(id) {
-    var objectStore = getObjectStore(DB_STORE_NAME, "readwrite");
+    var objectStore = getObjectStore(DB_TABLE_NAME, "readwrite");
     if (objectStore) {
       objectStore.transaction.oncomplete = function (event) {
         var update_item = db
-          .transaction([DB_STORE_NAME], "readwrite")
-          .objectStore(DB_STORE_NAME)
+          .transaction([DB_TABLE_NAME], "readwrite")
+          .objectStore(DB_TABLE_NAME)
           .get(id);
         update_item.onerror = function (event) {};
         update_item.onsuccess = function (event) {
@@ -137,11 +151,11 @@ const HistoryBar = () => {
   }
 
   function remove(id) {
-    var objectStore = getObjectStore(DB_STORE_NAME, "readwrite");
+    var objectStore = getObjectStore(DB_TABLE_NAME, "readwrite");
     objectStore.transaction.oncomplete = function (event) {
       var update_item = db
-        .transaction([DB_STORE_NAME], "readwrite")
-        .objectStore(DB_STORE_NAME)
+        .transaction([DB_TABLE_NAME], "readwrite")
+        .objectStore(DB_TABLE_NAME)
         .delete(id);
       update_item.onerror = function (event) {};
       update_item.onsuccess = function (event) {};
@@ -149,13 +163,13 @@ const HistoryBar = () => {
   }
 
   function get_all_img() {
-    var objectStore = getObjectStore(DB_STORE_NAME, "readwrite");
+    var objectStore = getObjectStore(DB_TABLE_NAME, "readwrite");
 
     if (objectStore) {
       objectStore.transaction.oncomplete = function (event) {
         var request = db
-          .transaction([DB_STORE_NAME], "readwrite")
-          .objectStore(DB_STORE_NAME)
+          .transaction([DB_TABLE_NAME], "readwrite")
+          .objectStore(DB_TABLE_NAME)
           .getAll();
         request.onerror = function (event) {};
         request.onsuccess = function (event) {
