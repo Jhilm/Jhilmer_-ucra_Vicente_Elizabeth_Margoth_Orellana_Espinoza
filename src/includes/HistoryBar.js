@@ -46,7 +46,7 @@ const HistoryBar = () => {
   useEffect(() => {
     if (app_ctx.EVENT_SAVE.save) {
       openDb();
-      openDB_mysql();
+      api_get_all_images();
       add_item(app_ctx.IMAGES[app_ctx.IMAGES.length - 1]);
       refresh();
       app_ctx.EVENT_SAVE.setValue(false);
@@ -55,8 +55,8 @@ const HistoryBar = () => {
 
   const [datos, setDatos] = useState(null);
 
-  function openDB_mysql() {
-    fetch("http://127.0.0.1:3001/getAll", {
+  function api_get_all_images() {
+    fetch("http://127.0.0.1:3001/getAllImages", {
       method: "POST",
     })
       .then((response) => response.json())

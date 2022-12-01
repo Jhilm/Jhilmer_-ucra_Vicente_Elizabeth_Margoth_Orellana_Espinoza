@@ -1,4 +1,4 @@
-import { Fragment, useRef} from "react";
+import { Fragment, useRef } from "react";
 import useCanvasContext from "../hooks/useCanvasContext";
 const BtnExtra = () => {
   const app_ctx = useCanvasContext();
@@ -32,7 +32,19 @@ const BtnExtra = () => {
     app_ctx.EVENT_SAVE.setValue(true);
     images.push(img_aux);
     app_ctx.setImage(images);
+    api_save_image(img_aux);
   }
+  function api_save_image(img) {
+    fetch("http://127.0.0.1:3001/saveImage", {
+      method: "POST",
+      body: img,
+    });
+    /* .then((response) => response.json()) 
+      .then((data) => {
+        console.log(data);
+      }); */
+  }
+
   function setPencilThickness() {
     app_ctx.THICKNESS = thickness_tool.current.value;
   }
